@@ -1,0 +1,7 @@
+.correct-answer {
+    color: green; /* Green for correct answers */
+  }
+  
+  .incorrect-answer {
+    color: red; /* Red for incorrect answers */
+  }

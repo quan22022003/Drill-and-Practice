@@ -1,0 +1,52 @@
+<% layout('./layouts/layout.eta') %>
+
+<h1><%= it.question.question_text %></h1>
+
+
+<% if (it.options && it.options.length > 0) { %>
+    <h2>Answer Options:</h2>
+    <ul>
+        <% it.options.forEach((option) => { %>
+            <li>
+                <%= option.option_text %>
+                <% if (option.is_correct) { %>
+                    <span class="correct-answer">✓</span>
+                <% } else { %>
+                    <span class="incorrect-answer">✗</span>
+                <% } %>
+                <form method="POST" action="/topics/<%= it.topicid %>/questions/<%= it.questionid %>/options/<%= option.id %>/delete">
+                    <input type="submit" value="Delete option!"/>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+<% } else { %>
+    <form method="POST" action="/topics/<%= it.topicid %>/questions/<%= it.questionid %>/delete">
+        <input type="submit" value="Delete question!"/>
+    </form>
+<% } %>
+
+<h3>Add an option!</h3>
+
+<% if (it.validationErrors) { %>
+<ul>
+    <% Object.keys(it.validationErrors).forEach((attribute) => { %>
+        <% Object.values(it.validationErrors[attribute]).forEach((err) => { %>
+            <li><%= err %></li>
+        <% }); %>
+    <% }); %>
+</ul>
+<% } %>
+
+<% if (it.correctnessError) { %>
+    <h4><%= it.correctnessError %></h4>
+<% } %>
+
+<form method="POST" action="/topics/<%= it.topicid %>/questions/<%= it.questionid %>/options">
+Option:<br />
+<textarea name="option_text"><%= it.option_text ? it.option_text : "" %></textarea><br />
+<label for="is_correct">Correct answer</label>
+<input type="checkbox" id="is_correct" name="is_correct" <%= it.is_correct ? 'checked' : '' %> /><br />
+<input type="submit" value="Add option!" />
+</form>
+  

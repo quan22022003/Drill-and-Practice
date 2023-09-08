@@ -1,0 +1,29 @@
+<% layout('./layouts/layout.eta') %>
+
+<% if (it.errors && it.errors.length > 0) { %>
+    <ul>
+        <% it.errors.forEach((err) => { %>
+            <li><h2><%= err %></li></h2>
+        <% }); %>
+    </ul>    
+<% } %>
+
+
+<% if (it.question) { %>
+<h1>Random question!</h1>
+    <h2><%= it.question.question_text %></h2>
+<% } %>
+
+<% if (it.options) { %>
+    <ul>
+        <% it.options.forEach((option) => { %>
+            <li>
+                <%= option.option_text %>
+                <form method="POST" action="/quiz/<%= it.topicid %>/questions/<%= it.questionid %>/options/<%= option.id %>">
+                    <input type="submit" value="Choose"/>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
